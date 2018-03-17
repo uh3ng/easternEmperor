@@ -1,3 +1,2 @@
 # easternEmperor
-A web app in Python
-Loading...
+This will be a blog system.And it's also my first web application in Python.
