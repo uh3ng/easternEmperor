@@ -1,14 +1,17 @@
 #coding:utf-8
 from django.shortcuts import render
 from django.http import HttpResponse
+import json
 # Create your views here.
 
 
 def index(request):
-    string_val = 'this is content'
-    li = [1, 2, 3, 4]
-    cnt = map(str, range(100))
-    return render(request, 'home.html', {'string': string_val, 'List': li, 'count': cnt})
+    List = ['渲染json', '到模板']
+    Dict = {"site": "自强学堂", 'author': "uh3ng"}
+    content = {'List': json.dumps(List),
+               'Dict': json.dumps(Dict)
+               }
+    return render(request, 'home.html', content)
 
 
 def add(request):

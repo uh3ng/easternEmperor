@@ -20,6 +20,6 @@ from learn import views
 urlpatterns = [
     path('', views.index, name='home'),
     path('add/', views.add, name='add'),
-    path('add2/<int:a>/<int:b>', views.add2, name='add2'),
+    path('add2/<int:a>/<int:b>/', views.add2, name='add2'),
     path('admin/', admin.site.urls),
 ]
