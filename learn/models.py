@@ -1,6 +1,7 @@
 from django.db import models
 import datetime
 from django.utils import timezone
+from django import forms
 # Create your models here.
 
 
@@ -54,3 +55,7 @@ class Entry(models.Model):
     def __str__(self):
         return self.headline
 
+
+class UploadFileForm(forms.Form):
+    title = forms.CharField(max_length=30)
+    file = forms.FileField()
