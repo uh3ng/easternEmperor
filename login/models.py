@@ -20,5 +20,5 @@ class User(models.Model):
 
     class Mete:
         ordering = ['-c_time']
-        verbose_name = "用户"
-        verbose_name_plural = "用户"
+        verbose_name = "uuuser"
+        verbose_name_plural = "uuusers"
