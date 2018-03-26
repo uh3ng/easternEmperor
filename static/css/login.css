@@ -1,5 +1,11 @@
 body{
     background-color: rgb(120, 168, 212);
+    background-image: url('../img/b1.jpeg');
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+    background-position: center;
+    background-size: cover;
+
 }
 .form-login{
     max-width: 330px;
