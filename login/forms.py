@@ -15,5 +15,5 @@ class RegisterForm(forms.Form):
     password1 = forms.CharField(max_length=256)
     password2 = forms.CharField(max_length=256)
     email = forms.EmailField(max_length=128)
-    gender = forms.ChoiceField(choice=gender)
+    gender = forms.ChoiceField(choices=gender)
 

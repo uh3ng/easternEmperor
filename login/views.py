@@ -32,11 +32,34 @@ def login(request):
                 message = "密码不正确"
             except:
                 message = "用户不存在"
-        return render(request, 'login/login.html', {'message': message})
+        return render(request, 'login/login.html', {
+            'message': message
+        })
     return render(request, 'login/login.html')
 
 
 def register(request):
+    if request.session.get('is_login', None):
+        return redirect('/index/')
+    if request.method == "POST":
+        register_form = forms.RegisterForm(request.POST)
+        message = '请检查填写内容'
+        if register_form.is_valid():
+            username = register_form.cleaned_data['username']
+            password1 = register_form.cleaned_data['password1']
+            password2 = register_form.cleaned_data['password2']
+            email = register_form.cleaned_data['email']
+            gender = register_form.cleaned_data['gender']
+            if password1 != password2:
+                message = '两次输入密码不同'
+                return render(request,
+                              'login/register.html', locals())
+            else:
+                same_name = models.User.objects.filter(name=username)
+                if same_name:
+                    message = "用户已存在，请更换用户名"
+                    return render(request,
+                                  'login/register.html', locals())
     return render(request, 'login/register.html')
 
 
