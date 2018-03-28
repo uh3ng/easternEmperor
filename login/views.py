@@ -60,6 +60,20 @@ def register(request):
                     message = "用户已存在，请更换用户名"
                     return render(request,
                                   'login/register.html', locals())
+                same_email = models.User.objects.filter(email=email)
+                if same_email:
+                    message = "邮箱已经注册过"
+                    return render(request,
+                                  'login/register.html', locals())
+
+                new_user = models.User.objects.create()
+                new_user.name = username
+                new_user.password = password1
+                new_user.email = email
+                new_user.gender = gender
+                new_user.save()
+                return redirect('/login/')
+    register_form = forms.RegisterForm()
     return render(request, 'login/register.html')
 
 
