@@ -10,7 +10,7 @@ from django.http import Http404
 
 def index(request):
     latest_questions_list = Question.objects.order_by('-pub_date')[:5]
-    content = {'list': latest_questions_list}
+    content = {'list': latest_questions_list, 'message': request.session.get('user_name', None)}
     return render(request, 'index.html', content)
 
 

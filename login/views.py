@@ -2,7 +2,15 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from login import models
 from login import forms
+import hashlib
 # Create your views here.
+
+
+def hash_code(s, salt="mysite"):
+    h = hashlib.sha256()
+    s += salt
+    h.update(s.encode())
+    return h.hexdigest()
 
 
 def index(request):
@@ -24,7 +32,7 @@ def login(request):
             password = login_form.cleaned_data['password']
             try:
                 user = models.User.objects.get(name=username)
-                if user.password == password:
+                if user.password == hash_code(password):
                     request.session['is_login'] = True
                     request.session['user_id'] = user.id
                     request.session['user_name'] = user.name
@@ -68,7 +76,7 @@ def register(request):
 
                 new_user = models.User.objects.create()
                 new_user.name = username
-                new_user.password = password1
+                new_user.password = hash_code(password1)
                 new_user.email = email
                 new_user.gender = gender
                 new_user.save()
