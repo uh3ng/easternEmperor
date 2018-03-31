@@ -80,7 +80,12 @@ def register(request):
                 new_user.email = email
                 new_user.gender = gender
                 new_user.save()
-                return redirect('/login/')
+
+                code = make_confirm_string(new_user)
+                send_email(email, code)
+
+                message = '请立即前往邮箱， 进行邮件确认'
+                return render(request, 'login/confirm.html', locals())
     register_form = forms.RegisterForm()
     return render(request, 'login/register.html')
 
@@ -90,3 +95,11 @@ def logout(request):
         return redirect("/index/")
     request.session.flush()
     return redirect("/index/")
+
+
+def make_confirm_string(user):
+    pass
+
+
+def send_email(email, code):
+    pass
