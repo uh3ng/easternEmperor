@@ -8,6 +8,9 @@
       <h2>新用户注册</h2>
       {% if message %}
         <div class="alert alert-warning">{{ message }}</div>
+        <p>
+          没有收到邮件？<a href="/sendagain/?email={{ email }}">点此重新发送</a>
+        </p>
       {% endif %}
       {% csrf_token %}
 

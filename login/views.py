@@ -87,12 +87,32 @@ def register(request):
                 new_user.save()
 
                 code = make_confirm_string(new_user)
-                send_email(email, code)
+                # send_email(email, code)
 
-                message = '请立即前往邮箱， 进行邮件确认'
-                return render(request, 'login/confirm.html', locals())
+                message = '请立即前往邮箱， 进行邮件确认，没有收到邮件？'
+                return render(request, 'login/register.html', locals())
     register_form = forms.RegisterForm()
     return render(request, 'login/register.html')
+
+
+def send_again(request):
+    old_email = request.GET.get('email', None)
+    new_email = request.POST.get('new_email', None)
+    if new_email is None:
+        return render(request, 'login/sendagain.html', locals())
+    user = models.User.objects.filter(email=old_email)
+    if user is None:
+        message = '用户不存在'
+    else:
+        if user[0].has_confirmed:
+            message = "你已经成功激活，不能修改邮箱！"
+            return render(request, 'login/sendagain.html', locals())
+        user[0].email = new_email
+        user[0].save()
+        code = models.ConfirmString.objects.get(user=user[0])
+        send_email(new_email, code)
+        message = '邮件已发送'
+    return render(request, 'login/sendagain.html', locals())
 
 
 def user_confirm(request):
@@ -137,7 +157,7 @@ def send_email(email, code):
     from django.core.mail import EmailMultiAlternatives
 
     subject = '注册确认邮件'
-    text_content = """感谢注册www.liujiangblog.com，这里是uh3ng的官方网站！\
+    text_content = """感谢注册www.uh3ng.com，这里是uh3ng的官方网站！\
                     如果你看到这条消息，说明你的邮箱服务器不提供HTML链接功能，请联系管理员！"""
     html_content = '''
     <p>感谢注册<a href="http://{}/confirm/?code={}" target=blank>www.uh3ng.com</a>，\
